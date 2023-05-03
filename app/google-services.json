@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "1047670348826",
+    "project_id": "com-nworld-uchat",
+    "storage_bucket": "com-nworld-uchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047670348826:android:659632c59f1319e71385a3",
+        "android_client_info": {
+          "package_name": "com.marsad.catchy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047670348826-jlukv9aojgftal7vt0gv5eoh71do5640.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2YwU4NXw66icxAyLQIMcioFZ5IPEXen8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047670348826-gubefkfl706grkemf4ocogfmeruh91td.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047670348826:android:3ee180c79b0e277c1385a3",
+        "android_client_info": {
+          "package_name": "com.nimesh.uchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047670348826-jlukv9aojgftal7vt0gv5eoh71do5640.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2YwU4NXw66icxAyLQIMcioFZ5IPEXen8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047670348826-gubefkfl706grkemf4ocogfmeruh91td.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047670348826:android:11910ca33b6eb57e1385a3",
+        "android_client_info": {
+          "package_name": "com.nworld.uchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047670348826-jlukv9aojgftal7vt0gv5eoh71do5640.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2YwU4NXw66icxAyLQIMcioFZ5IPEXen8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047670348826-gubefkfl706grkemf4ocogfmeruh91td.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

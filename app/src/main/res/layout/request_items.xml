@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="21dp"
+    android:elevation="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background">
+
+
+
+        <TextView
+            android:id="@+id/nameTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="30dp"
+            android:textColor="#EEEEEE"
+            android:text="Username"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/statusTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTV"
+            android:layout_marginStart="50dp"
+            android:textColor="#EEEEEE"
+            android:layout_marginTop="5dp"
+            android:text="Status"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="28dp"
+            android:text="Accept"
+            android:textAllCaps="true"
+            android:textColor="@color/colorLightBlue"
+            android:textSize="7dp"
+            app:backgroundTint="@color/geryDark"
+            app:shapeAppearanceOverlay="@style/Button1" />
+
+        <Button
+            android:id="@+id/reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="58dp"
+            android:layout_marginEnd="28dp"
+            android:text="Reject"
+            android:textAllCaps="true"
+            android:textColor="@color/colorLightBlue"
+            android:textSize="7dp"
+            app:backgroundTint="@color/geryDark"
+            app:shapeAppearanceOverlay="@style/Button1" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
