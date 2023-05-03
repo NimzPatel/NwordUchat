@@ -102,9 +102,7 @@ public class Profile extends Fragment {
     int count;
     private TextView nameTv, toolbarNameTv,nameLT,staff, statusTv, followingCountTv, followersCountTv, postCountTv;
 
-    private ImageButton settingEditButton,backButton;
-
-    private ImageButton logout,admin;
+    private ImageButton logout,admin,settingEditButton;
     private CircleImageView profileImage;
     private Button followBtn, startChatBtn;
     private RecyclerView recyclerView;
@@ -230,16 +228,6 @@ public class Profile extends Fragment {
             startActivity(intent);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("tab", 0);
-                intent.putExtra("userId", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
 
 
 
@@ -454,7 +442,6 @@ public class Profile extends Fragment {
         logout = view.findViewById(R.id.setting);
         settingEditButton = view.findViewById(R.id.settingEdit);
         admin = view.findViewById(R.id.doc);
-        backButton = view.findViewById(R.id.backBtn);
 
 
 

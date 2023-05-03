@@ -36,21 +36,21 @@ import com.nimesh.uchat.model.ReportedPost;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
     private final List<HomeModel> list;
     Activity context;
     OnPressed onPressed;
-    private CollectionReference reportedPosts;
 
     public HomeAdapter(List<HomeModel> list, Activity context) {
         this.list = list;
         this.context = context;
-        reportedPosts =  FirebaseFirestore.getInstance().collection("ReportedPosts");
     }
 
     @NonNull
@@ -141,7 +141,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
         private final ImageView imageView;
         private final CheckBox likeCheckBox;
         private final ImageButton commentBtn;
-        private final ImageButton report;
         private final ImageButton shareBtn;
 
 
@@ -157,7 +156,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             commentBtn = itemView.findViewById(R.id.commentBtn);
             shareBtn = itemView.findViewById(R.id.shareBtn);
             descriptionTv = itemView.findViewById(R.id.descTv);
-            report = itemView.findViewById(R.id.report);
 
             TextView commentTV = itemView.findViewById(R.id.commentTV);
 
@@ -189,36 +187,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
                 context.startActivity(Intent.createChooser(intent, "Share link using..."));
 
             });
-            report.setOnClickListener(click -> {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setMessage("Are you sure you want to report this post?");
-
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        reportedPosts.add(new ReportedPost(id, uid, name, imageUrl)).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(context, "Post successfully reported", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            });
         }
     }
 
 }
+
+
+
+
