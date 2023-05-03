@@ -2,17 +2,18 @@ package com.nimesh.uchat.model;
 
 public class Users {
 
-    private String email, name, profileImage, uid, userName;
+    private String email, name, profileImage, uid, userName,StaffOrStudent;
 
     public Users() {
     }
 
-    public Users(String email, String name, String profileImage, String uid, String userName) {
+    public Users(String email, String name, String profileImage, String uid, String userName, String StaffOrStudent) {
         this.email = email;
         this.name = name;
         this.profileImage = profileImage;
         this.uid = uid;
         this.userName = userName;
+        this.StaffOrStudent =StaffOrStudent;
     }
 
     public String getEmail() {
@@ -54,4 +55,14 @@ public class Users {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getStaffOrStudent() {
+        return StaffOrStudent;
+    }
+
+    public void setStaffOrStudent(String StaffOrStudent) {
+        this.userName = StaffOrStudent;
+    }
+
+
 }

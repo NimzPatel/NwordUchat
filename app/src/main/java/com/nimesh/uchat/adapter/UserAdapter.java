@@ -49,7 +49,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
         }
 
         holder.nameTV.setText(list.get(position).getName());
-        holder.statusTV.setText(list.get(position).getUserName());
+        holder.statusTV.setText(list.get(position).getStaffOrStudent());
 
         Glide.with(holder.itemView.getContext().getApplicationContext())
                 .load(list.get(position).getProfileImage())
