@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.nimesh.uchat.R;
+import com.nimesh.uchat.Request;
 import com.nimesh.uchat.adapter.HomeAdapter;
 import com.nimesh.uchat.adapter.StoriesAdapter;
 import com.nimesh.uchat.chat.ChatUsersActivity;
@@ -42,6 +44,7 @@ import java.util.Map;
 public class Home extends Fragment {
 
     private final MutableLiveData<Integer> commentCount = new MutableLiveData<>();
+    private ImageButton requestBtn;
     HomeAdapter adapter;
     RecyclerView storiesRecyclerView;
     StoriesAdapter storiesAdapter;
@@ -60,6 +63,11 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+
+
+
+
+
     }
 
     @Override
@@ -73,6 +81,12 @@ public class Home extends Fragment {
         list = new ArrayList<>();
         adapter = new HomeAdapter(list, getActivity());
         recyclerView.setAdapter(adapter);
+        requestBtn = view.findViewById(R.id.requestBtn);
+
+        requestBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), Request.class);
+            startActivity(intent);
+        });
 
         loadDataFromFirestore();
 
@@ -111,9 +125,6 @@ public class Home extends Fragment {
                         textView.setVisibility(View.VISIBLE);
 
                     StringBuilder builder = new StringBuilder();
-                    builder.append("See all")
-                            .append(commentCount.getValue())
-                            .append(" comments");
 
                     textView.setText(builder);
 //                    textView.setText("See all " + commentCount.getValue() + " comments");
@@ -158,7 +169,6 @@ public class Home extends Fragment {
     }
 
     private void loadDataFromFirestore() {
-
         final DocumentReference reference = FirebaseFirestore.getInstance().collection("Users")
                 .document(user.getUid());
 
@@ -189,8 +199,9 @@ public class Home extends Fragment {
                         if (value1 == null)
                             return;
 
-                        for (QueryDocumentSnapshot snapshot : value1) {
+                        list.clear();
 
+                        for (QueryDocumentSnapshot snapshot : value1) {
                             snapshot.getReference().collection("Post Images")
                                     .addSnapshotListener((value11, error11) -> {
 
@@ -201,8 +212,6 @@ public class Home extends Fragment {
                                         if (value11 == null)
                                             return;
 
-                                        list.clear();
-
                                         for (final QueryDocumentSnapshot snapshot1 : value11) {
 
                                             if (!snapshot1.exists())
@@ -210,38 +219,49 @@ public class Home extends Fragment {
 
                                             HomeModel model = snapshot1.toObject(HomeModel.class);
 
-                                            list.add(new HomeModel(
-                                                    model.getName(),
-                                                    model.getProfileImage(),
-                                                    model.getImageUrl(),
-                                                    model.getUid(),
-                                                    model.getDescription(),
-                                                    model.getId(),
-                                                    model.getTimestamp(),
-                                                    model.getLikes()));
+                                            boolean isDuplicate = false;
 
-                                            snapshot1.getReference().collection("Comments").get()
-                                                    .addOnCompleteListener(task -> {
+                                            // check for duplicate posts
+                                            for (HomeModel item : list) {
+                                                if (item.getId().equals(model.getId())) {
+                                                    isDuplicate = true;
+                                                    break;
+                                                }
+                                            }
 
-                                                        if (task.isSuccessful()) {
+                                            if (!isDuplicate) {
+                                                list.add(new HomeModel(
+                                                        model.getName(),
+                                                        model.getProfileImage(),
+                                                        model.getImageUrl(),
+                                                        model.getUid(),
+                                                        model.getDescription(),
+                                                        model.getId(),
+                                                        model.getTimestamp(),
+                                                        model.getLikes()));
 
-                                                            Map<String, Object> map = new HashMap<>();
-                                                            for (QueryDocumentSnapshot commentSnapshot : task
-                                                                    .getResult()) {
-                                                                map = commentSnapshot.getData();
+                                                snapshot1.getReference().collection("Comments").get()
+                                                        .addOnCompleteListener(task -> {
+
+                                                            if (task.isSuccessful()) {
+
+                                                                Map<String, Object> map = new HashMap<>();
+                                                                for (QueryDocumentSnapshot commentSnapshot : task
+                                                                        .getResult()) {
+                                                                    map = commentSnapshot.getData();
+                                                                }
+
+                                                                commentCount.setValue(map.size());
+
                                                             }
 
-                                                            commentCount.setValue(map.size());
-
-                                                        }
-
-                                                    });
-
+                                                        });
+                                            }
                                         }
+
                                         adapter.notifyDataSetChanged();
 
                                     });
-
                         }
 
                     });
@@ -250,7 +270,6 @@ public class Home extends Fragment {
             loadStories(uidList);
 
         });
-
     }
 
     void loadStories(List<String> followingList) {

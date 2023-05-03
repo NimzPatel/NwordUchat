@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.nimesh.uchat.R;
 import com.nimesh.uchat.adapter.CommentAdapter;
 import com.nimesh.uchat.model.CommentModel;
@@ -72,54 +73,37 @@ public class Comment extends Fragment {
 
 
     private void clickListener() {
-
         sendBtn.setOnClickListener(v -> {
-
             String comment = commentEt.getText().toString();
-
             if (comment.isEmpty()) {
                 Toast.makeText(getContext(), "Enter comment", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-
             String commentID = reference.document().getId();
-
             Map<String, Object> map = new HashMap<>();
             map.put("uid", user.getUid());
             map.put("comment", comment);
             map.put("commentID", commentID);
             map.put("postID", id);
-
             map.put("name", user.getDisplayName());
             map.put("profileImageUrl", user.getPhotoUrl().toString());
-
             reference.document(commentID)
                     .set(map)
                     .addOnCompleteListener(task -> {
-
                         if (task.isSuccessful()) {
-
                             commentEt.setText("");
-
+                            loadCommentData(); // call the method to update the list
                         } else {
-
-                            assert  task.getException() != null;
+                            assert task.getException() != null;
                             Toast.makeText(getContext(), "Failed to comment:" + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
-
                         }
-
                     });
-
         });
-
     }
 
     private void loadCommentData() {
-
-        reference.addSnapshotListener((value, error) -> {
-
+        reference.orderBy("commentID", Query.Direction.ASCENDING).addSnapshotListener((value, error) -> {
             if (error != null)
                 return;
 
@@ -128,17 +112,19 @@ public class Comment extends Fragment {
                 return;
             }
 
-            for (DocumentSnapshot snapshot : value) {
+            list.clear(); // clear the list before adding new comments
 
+            for (DocumentSnapshot snapshot : value) {
                 CommentModel model = snapshot.toObject(CommentModel.class);
                 list.add(model);
-
             }
+
             commentAdapter.notifyDataSetChanged();
-
         });
-
     }
+
+
+
 
     private void init(View view) {
 
