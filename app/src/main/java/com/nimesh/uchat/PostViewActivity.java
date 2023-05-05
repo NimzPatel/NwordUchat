@@ -30,7 +30,6 @@ public class PostViewActivity extends AppCompatActivity {
         String path = uri.getPath();
         String query = uri.getQuery();
 
-//            URL url = new URL(scheme + "://" + host + path.replace("Post Images", "Post%20Images") + "?" + query);
 
             FirebaseStorage.getInstance().getReference().child(uri.getLastPathSegment())
                     .getDownloadUrl()

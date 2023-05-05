@@ -279,7 +279,7 @@ public class Profile extends Fragment {
                     }
                 });
             } else {
-                createNotification();
+                createNotification(" Requested you.");
 
                 followersList.add(user.getUid()); //opposite user
                 followingList_2.add(userUID); //us
@@ -724,14 +724,14 @@ public class Profile extends Fragment {
 
     }
 
-    void createNotification() {
+    void createNotification(String message) {
 
         CollectionReference reference = FirebaseFirestore.getInstance().collection("Notifications");
 
         String id = reference.document().getId();
         Map<String, Object> map = new HashMap<>();
         map.put("time", FieldValue.serverTimestamp());
-        map.put("notification", user.getDisplayName() + " followed you.");
+        map.put("notification", user.getDisplayName() + message);
         map.put("id", id);
         map.put("uid", userUID);
 

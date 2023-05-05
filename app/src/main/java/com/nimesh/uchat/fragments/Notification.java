@@ -88,6 +88,10 @@ public class Notification extends Fragment {
                         list.add(model);
 
                     }
+                    adapter = new NotificationAdapter(getContext(), list);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setAdapter(adapter);
+
                     adapter.notifyDataSetChanged();
 
 

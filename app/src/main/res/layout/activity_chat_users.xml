@@ -73,6 +73,7 @@
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="8dp"
             android:drawableTint="@color/black"
+            android:visibility="gone"
             android:hint="Search..."
             android:padding="12dp"
             tools:ignore="UnusedAttribute" />

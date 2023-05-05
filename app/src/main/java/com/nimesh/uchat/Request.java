@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nimesh.uchat.adapter.RequestAdapter;
 
@@ -71,7 +72,7 @@ public class Request extends AppCompatActivity implements RequestAdapter.OnReque
         FirebaseFirestore.getInstance().collection("Users").document(user.getUid()).get().addOnCompleteListener(task ->{
             ArrayList<HashMap<String, Object>> requestsMapList = (ArrayList<HashMap<String, Object>>) task.getResult().get("requests");
             if(requestsMapList != null){
-                ArrayList<com.nimesh.uchat.model.Request> requestList = new ArrayList<>();
+               requestList = new ArrayList<>();
                 for (HashMap<String, Object> requestMap : requestsMapList) {
                     com.nimesh.uchat.model.Request request = new com.nimesh.uchat.model.Request();
                     request.setToId((String) requestMap.get("toId"));
@@ -97,6 +98,16 @@ public class Request extends AppCompatActivity implements RequestAdapter.OnReque
                 if(task.isSuccessful()){
                     List<String> followers =  (List<String>) task.getResult().get("followers");
                     followers.add(request.getFromId());
+
+                    requestList = new ArrayList<>();
+                    ArrayList<HashMap<String, Object>> requestsMapList = (ArrayList<HashMap<String, Object>>) task.getResult().get("requests");
+                    for (HashMap<String, Object> requestMap : requestsMapList) {
+                        com.nimesh.uchat.model.Request request = new com.nimesh.uchat.model.Request();
+                        request.setToId((String) requestMap.get("toId"));
+                        request.setFromId((String) requestMap.get("fromId"));
+                        // Add the request to the list
+                        requestList.add(request);
+                    }
 
                     Map<String, Object> followersMap = new HashMap<>();
                     followersMap.put("followers", followers);
@@ -129,7 +140,9 @@ public class Request extends AppCompatActivity implements RequestAdapter.OnReque
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if(task.isSuccessful()){
-                                                                Toast.makeText(Request.this, "Rejected Request", Toast.LENGTH_SHORT).show();
+                                                                createNotification(" Accepted your request", request.getFromId());
+
+                                                                Toast.makeText(Request.this, "Request Accepted", Toast.LENGTH_SHORT).show();
                                                             }else{
                                                                 requestList.add(request);
                                                                 Toast.makeText(Request.this, "Could reject", Toast.LENGTH_SHORT).show();
@@ -157,6 +170,8 @@ public class Request extends AppCompatActivity implements RequestAdapter.OnReque
 
     @Override
     public void onRemoveClick(com.nimesh.uchat.model.Request request) {
+
+
         requestList.remove(request);
         final Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("requests", requestList);
@@ -165,6 +180,7 @@ public class Request extends AppCompatActivity implements RequestAdapter.OnReque
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    createNotification(" Rejected your request", request.getFromId());
                     Toast.makeText(Request.this, "Rejected Request", Toast.LENGTH_SHORT).show();
                 }else{
                     requestList.add(request);
@@ -179,5 +195,22 @@ public class Request extends AppCompatActivity implements RequestAdapter.OnReque
             }
         });
     }
+
+    void createNotification(String message, String userUID) {
+
+        CollectionReference reference = FirebaseFirestore.getInstance().collection("Notifications");
+
+        String id = reference.document().getId();
+        Map<String, Object> map = new HashMap<>();
+        map.put("time", FieldValue.serverTimestamp());
+        map.put("notification", user.getDisplayName() + message);
+        map.put("id", id);
+        map.put("uid", userUID);
+
+
+        reference.document(id).set(map);
+
+    }
+
 
 }

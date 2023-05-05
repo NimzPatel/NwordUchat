@@ -151,6 +151,7 @@
             android:elevation="15dp"
             android:fontFamily="@font/robot"
             android:gravity="center"
+            android:visibility="gone"
             android:text="Sign in with Goodle"
             android:textAllCaps="true"
             app:shapeAppearanceOverlay="@style/Button1"

@@ -66,7 +66,6 @@ public class Add extends Fragment {
     private FirebaseUser user;
 
     public Add() {
-        // Required empty public constructor
     }
 
     @Override
