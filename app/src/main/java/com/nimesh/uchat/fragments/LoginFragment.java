@@ -87,7 +87,7 @@ public class LoginFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("1047670348826-jlukv9aojgftal7vt0gv5eoh71do5640.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
